@@ -9,7 +9,11 @@ Made as a simple replacement for [enmap](https://github.com/eslachance/enmap).
 ```ts
 import { SimpleKV } from "@jvvan/simple-kv";
 
-const kv = new SimpleKV({ name: "users" });
+interface User {
+  name: string;
+}
+
+const kv = new SimpleKV<User>({ name: "users" });
 
 kv.set("user1", { name: "John Doe" });
 console.log(kv.get("user1")); // { name: "John Doe" }
