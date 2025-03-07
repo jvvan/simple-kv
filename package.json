@@ -1,0 +1,54 @@
+{
+  "name": "@jvvan/simple-kv",
+  "version": "1.0.0",
+  "description": "A simple key-value stored backed by better-sqlite3",
+  "main": "dist/cjs/index.cjs",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.mjs",
+  "exports": {
+    "import": {
+      "types": "./dist/esm/index.d.mts",
+      "default": "./dist/esm/index.mjs"
+    },
+    "require": {
+      "types": "./dist/cjs/index.d.ts",
+      "default": "./dist/cjs/index.cjs"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jvvan/simple-kv.git"
+  },
+  "keywords": [
+    "better-sqlite3",
+    "sqlite",
+    "key-value",
+    "kv",
+    "database"
+  ],
+  "author": "jvvan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jvvan/simple-kv/issues"
+  },
+  "homepage": "https://github.com/jvvan/simple-kv#readme",
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.2"
+  },
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "better-serialize": "^2.0.0",
+    "better-sqlite3": "^11.8.1"
+  }
+}
