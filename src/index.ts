@@ -1,6 +1,8 @@
 import Database from "better-sqlite3";
 import { resolve } from "path";
 import { stringify, parse } from "better-serialize";
+import { dirname } from "path";
+import { existsSync, mkdirSync } from "fs";
 
 export interface SimpleKVOptions {
   name: string;
@@ -18,8 +20,9 @@ export class SimpleKV<Value> {
     }
 
     this.name = options.name;
-    this.path = options.path || resolve(process.cwd(), "data", `kv.db`);
+    this.path = options.path || resolve(process.cwd(), "data", "kv.db");
 
+    this.ensurePath(this.path);
     this.db = new Database(this.path);
 
     this.db.pragma("synchronous = 1");
@@ -36,6 +39,15 @@ export class SimpleKV<Value> {
     process.on("exit", () => {
       this.db.close();
     });
+  }
+
+  private ensurePath(path: string) {
+    if (path === ":memory:") return;
+
+    const dir = dirname(path);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
   }
 
   public get(key: string): Value | undefined {
@@ -57,6 +69,14 @@ export class SimpleKV<Value> {
         [string, string]
       >(`INSERT OR REPLACE INTO ${this.name} (key, value) VALUES (?, ?)`)
       .run(key, stringify(value));
+  }
+
+  public ensure(key: string, value: Value): Value {
+    if (!this.has(key)) {
+      this.set(key, value);
+    }
+
+    return this.get(key)!;
   }
 
   public delete(key: string): void {
